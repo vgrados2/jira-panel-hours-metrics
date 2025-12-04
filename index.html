@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Dashboard de Jira - Horas por Persona / Proyecto</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 Dashboard de Jira – Horas por Persona / Proyecto</h1>
+        </header>
+
+        <div id="upload-section" class="upload-zone">
+            <div class="upload-content">
+                <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                </svg>
+                <h2>📂 Sube tu archivo Excel (.xlsx)</h2>
+                <p>Arrastra y suelta tu archivo aquí o haz clic para seleccionar</p>
+                <input type="file" id="file-input" accept=".xlsx" hidden>
+                <button id="select-file-btn" class="btn-primary">Seleccionar Archivo</button>
+            </div>
+        </div>
+
+        <div id="dashboard-section" class="hidden">
+            <aside class="sidebar">
+                <h3>🎛 Filtros</h3>
+                
+                <div class="filter-group">
+                    <label for="date-filter">Filtrar por fecha:</label>
+                    <select id="date-filter">
+                        <option value="all">Todos</option>
+                        <option value="current-month">Mes actual</option>
+                        <option value="last-month">Mes pasado</option>
+                        <option value="last-quarter">Último trimestre</option>
+                        <option value="last-semester">Último semestre</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="project-filter">Filtrar por proyecto:</label>
+                    <select id="project-filter">
+                        <option value="all">Todos</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="person-filter">Filtrar por persona:</label>
+                    <select id="person-filter">
+                        <option value="all">Todos</option>
+                    </select>
+                </div>
+
+                <button id="reset-filters" class="btn-secondary">Resetear Filtros</button>
+            </aside>
+
+            <main class="main-content">
+                <div class="metric-card">
+                    <h3>⏱ Total de horas trabajadas</h3>
+                    <div id="total-hours" class="metric-value">0 h</div>
+                </div>
+
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="charts">📊 Gráficos</button>
+                    <button class="tab-btn" data-tab="data">📄 Datos</button>
+                </div>
+
+                <div id="charts-tab" class="tab-content active">
+                    <section class="chart-section">
+                        <h2>👤 Horas por Persona</h2>
+                        <div id="chart-person"></div>
+                    </section>
+
+                    <section class="chart-section">
+                        <h2>📁 Horas por Proyecto</h2>
+                        <div id="chart-project"></div>
+                    </section>
+                </div>
+
+                <div id="data-tab" class="tab-content">
+                    <section class="chart-section">
+                        <h2>📄 Datos filtrados</h2>
+                        <div class="table-container">
+                            <table id="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Persona asignada</th>
+                                        <th>Ticket</th>
+                                        <th>Resumen</th>
+                                        <th>Proyecto</th>
+                                        <th>Descripción del trabajo</th>
+                                        <th>Fecha de creación</th>
+                                        <th>Tiempo invertido</th>
+                                        <th>Horas</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td colspan="8" style="text-align:center; color: #a0a0a0;">No hay datos para mostrar.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+
+        <footer>
+            <p>© 2025 Victor Grados. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+
+    <script src="app.js?v=1.4"></script>
+</body>
+</html>
